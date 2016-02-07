@@ -24,11 +24,12 @@
     // !Variables
 
     // Functions
+
     // Check if localStorage exists and if it is get its content
     function checkLocalStorage () {
-        if (window.localStorage.length > 0) {
-            storage = window.localStorage;
-            console.log(storage);
+        if (window.localStorage.list.length > 0) {
+            storage = window.localStorage.list;
+            console.warn('localStorage loaded!');
         } else {
             console.warn('localStorage is empty!');
         }
@@ -58,7 +59,7 @@
     }
     // Add class to element if it doesn't has it already
     function addClass (element, classname) {
-        classnameTemp = ' ' + classname.trim();
+        var classnameTemp = ' ' + classname.trim();
         if (hasClass(element, classname)) { return false; }
         element.className += classnameTemp;
     }
@@ -67,7 +68,7 @@
         var classnameTemp = classname.trim();
         var classList = [];
         // If element doesn't have that class it's no point to going further
-        if (!hasClass(element, classnameTemp)) { return false; }
+        if (hasClass(element, classnameTemp)) { return false; }
         getClasses(element).forEach(function (item) {
             if (item !== classnameTemp) {
                 classList.push(item);
@@ -75,19 +76,21 @@
         });
         element.className = classList.join(' ');
     }
-    // gets content of element without html tags
-    function getContent (element) {
-        return element.innerHTML.replace(/<[^>]*>/g, "");
-    }
-    // Check if whereItem contains whatItem
-    function contains (whatItem, whereItem) {
+    // Check if 'where' array contains 'whatItem'
+    function contains (where, whatItem) {
         var i;
-        for (i = 0; i < whereItem.length; i++) {
-            if (whereItem[i] === whatItem) {
+        for (i = 0; i < where.length; i++) {
+            if (where[i] === whatItem) {
                 return true;
             }
         }
         return false;
+    }
+    function getItemsCount () {
+        return getElement(classList).children.length;
+    }
+    function getCompletedCount () {
+        return document.getElementsByClassName(classComplete).length;
     }
 
     // Specific funcionality
@@ -96,7 +99,6 @@
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 template = xhttp.responseText;
-                console.warn(xhttp.responseText);
             }
         };
         xhttp.open('GET', 'item.html', true);
@@ -109,17 +111,16 @@
         return contains(getClasses(element), classComplete);
     }
     function getAmountOfActives () {
-        return getElement(classList).children.length - document.getElementsByClassName(classComplete).length;
+        return getItemsCount() - getCompletedCount();
     }
-    function isSingular () {
+    function pluralization () {
         var num = getAmountOfActives();
         if (num === 1) {
-            return true;
+            addClass(singular, 'singular');
         }
-        return false;
+        removeClass(singular, 'singular');
     }
     function addNewTask (content) {
-        // todo add new item in dom from listitem.html
         todoList.innerHTML += template;
         // Fill content somehow this is example only
         todoList.children[todoList.children.length - 1].children[0].children[2].innerHTML = content;
@@ -133,11 +134,16 @@
     }
 
     // !Functions
+    // test local storage
     checkLocalStorage();
     storage = getClasses(todoList);
     saveLocalStorage();
-    if (isSingular()) {
-        singular.className += ' singular';
-    }
-    updateCounter();
+
+    pluralization();
+    // Test for adding new item (timeout is set to delay this function so the ajax load can get list template)
+    setTimeout(function () {
+        addNewTask('Buy tomatoes');
+        updateCounter();
+        pluralization();
+    }, 1);
 })(window);

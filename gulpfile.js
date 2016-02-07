@@ -3,16 +3,25 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     notify = require('gulp-notify'),
     connect = require('gulp-connect'),
-    spritesmith = require('gulp.spritesmith');
+    spritesmith = require('gulp.spritesmith'),
+    autoprefixer = require('gulp-autoprefixer');
 
 // Compile scss files into css file
 gulp.task('styles', function () {
-    return gulp.src('sass/*.scss')
+    return gulp.src('sass/main.scss')
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-        .pipe(concat('main.css'))
+        .pipe(autoprefixer('last 2 versions'))
+        // .pipe(concat('main.css')) uncomment this when more files will be in sass folder
         .pipe(gulp.dest('css/'))
         .pipe(notify({ message: 'Styles Task Done!'}))
         .pipe(connect.reload());
+});
+
+// adds prefixes to css file
+gulp.task('autoprefixer', function () {
+    return gulp.src('css/main.css')
+        .pipe(autoprefixer('last 2 versions'))
+        .pipe(gulp.dest('css/'));
 });
 
 // Generates sprite file from .png files

@@ -1,0 +1,304 @@
+@import 'variables';
+
+body
+{
+    font-family: $font_normal;
+    background-color: $color_background;
+}
+* {
+    box-sizing: border-box;
+}
+.wrapper
+{
+    width: 600px;
+    max-width: 100%;
+    margin: auto;
+    padding-bottom: 50px;
+}
+.hero {
+    &__title
+    {
+        font-size: 70px;
+        font-weight: 100;
+        font-style: italic;
+
+        margin: 0;
+
+        text-align: center;
+        text-transform: uppercase;
+    }
+    &__subtitle
+    {
+        font-size: 18px;
+
+        margin: 20px 0;
+
+        text-align: center;
+
+        color: $color_red;
+    }
+
+}
+
+.add-panel {
+    position: relative;
+    label {
+        z-index: 5;
+        position: absolute;
+        content: '';
+        left: 2px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width: 50px;
+        height: 50px;
+        text-indent: -998em;
+    }
+    &__new {
+        border-radius: 6px;
+        width: 100%;
+        padding: 0 20px 0 50px;
+        height: 50px;
+        line-height: 46px;
+        border: 2px solid $color_border;
+        font-size: 24px;
+        font-family: $font_normal;
+        color: $color_black;
+        position: relative;
+        transition: 200ms;
+        &:focus {
+            outline: 0;
+            border-color: #00C5CD;
+        }
+    }
+}
+.list-todo
+{
+    background-color: $color_white;
+    margin: 40px 0 0;
+    padding: 0;
+
+    list-style: none;
+}
+.task {
+    padding: 10px 20px;
+    border: 1px solid $color_border;
+    position: relative;
+    &:first-child {
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+    }
+    + .task {
+        border-top: 0;
+    }
+    &:last-child {
+        border-bottom: 0;
+    }
+    &__status {
+        position: absolute;
+        margin: auto;
+        left: 4px;
+        top: 0;
+        bottom: 0;
+        height: 53px;
+        width: 53px;
+        opacity: 0;
+        z-index: 2;
+        cursor: pointer;
+    }
+    &__label {
+        left: 10px;
+        border-radius: 50%;
+        border: 1px solid $color_red;
+        width: 40px;
+        height: 40px;
+    }
+    &__description {
+        margin: 0;
+        font-size: 24px;
+        padding: 0 45px;
+    }
+    &:hover {
+        .icon {
+            opacity: 1;
+        }
+    }
+    &__edit {
+        border: 0;
+        width: 100%;
+        font-size: 24px;
+        font-family: $font_normal;
+        display: none;
+        &:focus {
+            outline: 0;
+        }
+    }
+    &.editing {
+        .item {
+            display: none;
+        }
+        .task__edit {
+            display: block;
+        }
+    }
+    &.complete {
+        color: green;
+        .task__description {
+            opacity: 0.5;
+        }
+        .icon--status {
+            opacity: 0.5;
+            border-color: $color_green;
+            &:before {
+                border-color: $color_green;
+            }
+        }
+    }
+}
+
+.summary {
+    border: 1px solid $color_border;
+    padding: 10px 20px;
+    font-size: 24px;
+    background-color: $color_white;
+    &__count {
+        margin: 0;
+        display: inline-block;
+    }
+    &__text {
+        margin: 0;
+        font-style: italic;
+        color: $color_grey;
+        display: inline-block;
+        &.singular .not-one {
+            display: none;
+        }
+    }
+}
+.filters {
+    background-color: $color_white;
+    line-height: 30px;
+    padding: 10px 20px;
+    border: 1px solid $color_border;
+    border-top: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    &:after {
+        clear: both;
+        display: block;
+        content: '';
+    }
+    &__desc,
+    &__list{
+        display: block;
+        float: left;
+    }
+    &__desc {
+        margin: 0;
+    }
+    &__list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        margin-left: 20px;
+        li {
+            border-radius: 5px;
+            display: inline-block;
+            &.active {
+                border: 1px solid $color_red;
+            }
+        }
+    }
+    &__clear {
+        display: none;
+        float: right;
+        padding: 0 20px;
+        line-height: 30px;
+        color: $color_black;
+        text-decoration: none;
+        transition: 200ms;
+        &:hover{
+            color: $color_blue;
+        }
+        &.active {
+            display: block;
+        }
+
+    }
+}
+.filter {
+    padding: 0 20px;
+    color: $color_black;
+    text-decoration: none;
+    transition: 200ms;
+    .filters__list li.active & {
+        color: $color_red;
+    }
+    &:hover {
+        color: $color_blue;
+    }
+}
+.icon {
+    position: absolute;
+    text-indent: -998em;
+    transition: 250ms;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    &--status {
+        left: 10px;
+        border-radius: 50%;
+        border: 2px solid $color_red;
+        width: 40px;
+        height: 40px;
+        &:before {
+            left: 0;
+            right: 0;
+            bottom: 5px;
+            top: 0;
+            margin: auto;
+            transform: rotate(-45deg);
+            height: 9px;
+            width: 17px;
+            content: '';
+            position: absolute;
+            border-bottom: 3px solid;
+            border-left: 3px solid;
+            border-color: $color_red;
+        }
+
+    }
+    &--delete {
+        height: 53px;
+        width: 53px;
+        opacity: 0;
+        right: 0;
+        &:hover {
+            &:after,
+            &:before {
+                background-color: $color_red;
+            }
+        }
+        &:after,
+        &:before {
+            transition: 250ms;
+            position: absolute;
+            margin: auto;
+            right: 0;
+            left: 0;
+            content: '';
+            top: 0;
+            bottom: 0;
+            width: 5px;
+            height: 40px;
+            display: block;
+            background-color: $color_red_alt;
+        }
+        &:after {
+            transform: rotate(45deg);
+        }
+        &:before {
+            transform: rotate(-45deg);
+        }
+    }
+}

@@ -1,6 +1,6 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
-    concat = require('gulp-concat'),
+    // concat = require('gulp-concat'),
     notify = require('gulp-notify'),
     connect = require('gulp-connect'),
     spritesmith = require('gulp.spritesmith'),

@@ -23,6 +23,8 @@
     var singular = getElement(classSingular);
 
     var template = loadTemplate();
+
+    var itemsList = {};
     // !Variables
 
     // Functions
@@ -30,14 +32,11 @@
     // Check if localStorage exists and if it is get its content
     function checkLocalStorage () {
         if (window.localStorage.list.length > 0) {
-            storage = window.localStorage.list;
-            console.warn('localStorage loaded!');
-        } else {
-            console.warn('localStorage is empty!');
+            itemsList = window.localStorage.list;
         }
     }
     function saveLocalStorage () {
-        window.localStorage.list = storage;
+        window.localStorage.list = itemsList;
     }
     function clearLocalStorage () {
         window.localStorage.removeItem('list');
@@ -79,6 +78,16 @@
         }
         return false;
     }
+    function getChildrensWithClass (element, classname) {
+        var childrens = [];
+        var i;
+        for (i = 0; i < element.children.length; i++) {
+            if (contains(element.children[i].classList, classname)) {
+              childrens.push(element.children[i]);
+            }
+        }
+        return childrens;
+    }
     function toggleClass (element, classname) {
         if (contains(element.classList, classname)) {
             removeClass(element, classname);
@@ -111,9 +120,6 @@
     function isComplete (element) {
         return contains(getClasses(element), classComplete);
     }
-    function getParent (element) {
-        return element.parentElement;
-    }
     function getAmountOfActives () {
         return getItemsCount() - getCompletedCount();
     }
@@ -125,12 +131,19 @@
         removeClass(singular, 'singular');
     }
     function addNewTask (content) {
+        var newTask;
         todoList.innerHTML += template;
+        newTask = todoList.children[getItemsCount() - 1].children[0];
         // Fill content somehow this is example only
-        todoList.children[getItemsCount() - 1].children[0].children[2].innerHTML = content;
-        addCheckFunctionality(document.getElementsByClassName('task__status')[getItemsCount() - 1]);
-        addRemoveFunc(document.getElementsByClassName(classDelete)[getItemsCount() - 1]);
-        console.log('added', getItemsCount() - 1);
+        console.warn(getChildrensWithClass(newTask, 'task__status'));
+        getChildrensWithClass(newTask, 'task__description')[0].innerHTML = content;
+        getChildrensWithClass(newTask, 'task__status')[0].addEventListener('click', function (e) {
+            changeTaskStatus(e.target);
+        }, false);
+        getChildrensWithClass(newTask, 'task__delete')[0].addEventListener('click', function (e) {
+            removeTask(e.target);
+        }, false);
+
     }
     // document.addEventListener('click', function () {
     //     addNewTask('pomidory');
@@ -139,8 +152,16 @@
         counter.innerHTML = getAmountOfActives();
     }
     function removeTask (element) {
-        getParent(getParent(element)).remove();
+        element.parentElement.parentElement.remove();
+        updateCounter();
+        pluralization();
     }
+    function changeTaskStatus (task) {
+        toggleClass(task.parentElement.parentElement, classComplete);
+        updateCounter();
+        pluralization();
+    }
+
     function addEditedFunc (element) {
         element.addEventListener('keyup', function (e) {
             // e.target.value
@@ -148,33 +169,17 @@
     }
     function addEditFunc (element) {
         element.addEventListener('dblclick', function (e) {
-
+            // todo
         });
     }
     // These adds funcionality only for last element -> find issue -> fix that
-    function addCheckFunctionality (element) {
-        console.warn(element);
-        // Fix this
-        element.addEventListener('click', function (e) {
-            toggleClass(e.target.parentElement.parentElement, classComplete);
-            updateCounter();
-        });
-    }
-    function addRemoveFunc (element) {
-        console.warn(element);
-        // FIX this
-        element.addEventListener('click', function (e) {
-            removeTask(e.target);
-            updateCounter()
-        });
-    }
 
     // Add events
     inputNew.addEventListener('keyup', function (e) {
         if (e.keyCode === 13 && e.target.value.trim() !== '') {
             addNewTask(e.target.value.trim());
         }
-    });
+    }, false);
 
 
     // !Functions
@@ -183,12 +188,10 @@
     storage = getClasses(todoList);
     saveLocalStorage();
 
+    updateCounter();
     pluralization();
-    // Test for adding new item (timeout is set to delay this function so the ajax load can get list template)
-    setTimeout(function () {
-        addNewTask('Buy tomatoes');
-        updateCounter();
-        pluralization();
-    }, 1);
+    // document.addEventListener('click', function (e) {
+    //     console.log(e.target);
+    // }, false)
 
 })(window);

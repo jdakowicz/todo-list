@@ -11,8 +11,7 @@ gulp.task('styles', function () {
     return gulp.src('sass/main.scss')
         .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(autoprefixer('last 2 versions'))
-        // .pipe(concat('main.css')) uncomment this when more files will be in sass folder
-        .pipe(gulp.dest('css/'))
+        .pipe(gulp.dest('css/main.css'))
         .pipe(notify({ message: 'Styles Task Done!'}))
         .pipe(connect.reload());
 });

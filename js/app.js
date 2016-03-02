@@ -1,17 +1,23 @@
 define(function (require) {
-    // Load any app-specific modules
-    // with a relative require call,
-    // like:
-    var ops = require('./helpers/operations');
-    var tasks = require('./helpers/task');
+    var counter = require('./helpers/counter');
+    var filters = require('./helpers/filter')
+    // Task constructor
+    var Task = function (description, element) {
+        this.description = description;
+        this.isComplete = false;
+        this.element = element;
+        console.log(this);
+    }
 
-    // var newTask = new tasks.Task(tasks.setId(), 'testo');
-    console.log(tasks);
-    // console.log(newTask);
+    // count items after page load and update counter
+    counter();
+    filters();
 
-    // Load library/vendor modules using
-    // full IDs, like:
-    // var print = require('print');
+    // test of counter
+    // setTimeout(function () {
+    //
+    //     document.querySelector('.todo-list').innerHTML += '<li></li><li class="completed"></li>';
+    //     counter();
+    // }, 500)
 
-    ops.print('koko');
 });

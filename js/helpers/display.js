@@ -1,5 +1,4 @@
 define(function () {
-    var allTasks = Array.from(document.querySelectorAll('.todo-list li'));
     // helper function to check is item has specific class
     function contains (obj, target) {
         if (obj.indexOf(target) >= 0) {
@@ -7,17 +6,21 @@ define(function () {
         }
         return false;
     }
-    // function to swap views depends on selected filrter
+
+    // function to swap views depends on selected filter
     function show (selectedFilter) {
         switch (selectedFilter) {
+
+            // Show all tasks
             case 'all':
-                allTasks.forEach(function(item) {
+                Array.from(document.querySelectorAll('.todo-list li')).forEach(function(item) {
                     item.classList.remove('hidden');
                 });
             break;
 
+            // Show only active tasks
             case 'active':
-                allTasks.forEach(function(item) {
+                Array.from(document.querySelectorAll('.todo-list li')).forEach(function(item) {
                     if (contains(Array.from(item.classList), 'completed')) {
                         item.classList.add('hidden');
                     } else {
@@ -26,8 +29,9 @@ define(function () {
                 });
             break;
 
+            // Show only completed tasks
             case 'completed':
-            allTasks.forEach(function(item) {
+            Array.from(document.querySelectorAll('.todo-list li')).forEach(function(item) {
                 if (contains(Array.from(item.classList), 'completed')) {
                     item.classList.remove('hidden');
                 } else {

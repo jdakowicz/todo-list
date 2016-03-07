@@ -1,23 +1,12 @@
 define(function (require) {
     var counter = require('./helpers/counter');
-    var filters = require('./helpers/filter')
-    // Task constructor
-    var Task = function (description, element) {
-        this.description = description;
-        this.isComplete = false;
-        this.element = element;
-        console.log(this);
-    }
+    var filters = require('./helpers/filter');
+    var tasks = require('./helpers/tasks');
 
-    // count items after page load and update counter
-    counter();
+    tasks.add('item 1');
+    tasks.add('item 2');
+    tasks.add('item 3');
+
+    // initiate filters
     filters();
-
-    // test of counter
-    // setTimeout(function () {
-    //
-    //     document.querySelector('.todo-list').innerHTML += '<li></li><li class="completed"></li>';
-    //     counter();
-    // }, 500)
-
 });

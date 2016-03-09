@@ -20,12 +20,13 @@ define(['./display', './tasks'], function (display, tasks) {
             }
         });
         clearAll.addEventListener('click', function () {
-            tasks.taskList.forEach(function (item) {
-                if (item.element.classList.contains('completed')) {
-                  tasks.remove(item);
+            var temp = tasks.taskList;
+            temp.forEach(function (item, index) {
+                // FIXME this needs to be fixed
+                if (document.querySelectorAll('.todo-list li')[index].classList.contains('completed')) {
+                    tasks.remove(item, document.querySelectorAll('.todo-list li')[index]);
                 }
             });
-            tasks.print();
         });
     }
 

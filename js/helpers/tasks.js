@@ -78,27 +78,27 @@ define(['./counter', './template', './storage'], function (counter, template, st
             editTask(item, element);
         })
     }
-    function editTask (item) {
-        item.element.classList.add('editing');
+    function editTask (item, element) {
+        element.classList.add('editing');
         // Focus the input
-        item.element.querySelector('.edit').focus();
+        element.querySelector('.edit').focus();
         // Save on /enter
-        item.element.querySelector('.edit').addEventListener('keypress', function (e) {
+        element.querySelector('.edit').addEventListener('keypress', function (e) {
             if (e.keyCode === 13) {
                 // Set description to the input value
                 item.description = e.target.value;
                 // Set description in DOM
-                item.element.querySelector('label').innerHTML = item.description;
+                element.querySelector('label').innerHTML = item.description;
                 // Remove editing class
-                item.element.classList.remove('editing');
+                element.classList.remove('editing');
                 // Update localSorage
                 storage.saveData(allTasks);
             }
         });
-        item.element.querySelector('.edit').addEventListener('focusout', function (e) {
+        element.querySelector('.edit').addEventListener('focusout', function (e) {
             item.description = e.target.value;
-            item.element.querySelector('label').innerHTML = item.description;
-            item.element.classList.remove('editing');
+            element.querySelector('label').innerHTML = item.description;
+            element.classList.remove('editing');
             // Update localSorage
             storage.saveData(allTasks);
         });

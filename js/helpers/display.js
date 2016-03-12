@@ -10,17 +10,18 @@ define(function () {
     // function to swap views depends on selected filter
     function show (selectedFilter) {
         switch (selectedFilter) {
-
             // Show all tasks
-            case 'all':
-                Array.from(document.querySelectorAll('.todo-list li')).forEach(function(item) {
+            case '#/':
+                // Remove 'hidden' class from all tasks
+                Array.from(__e('.todo-list li')).forEach(function (item) {
                     item.classList.remove('hidden');
                 });
             break;
 
             // Show only active tasks
-            case 'active':
-                Array.from(document.querySelectorAll('.todo-list li')).forEach(function(item) {
+            case '#/active':
+                // Hide tasks with 'completed' class, show all others
+                Array.from(__e('.todo-list li')).forEach(function (item) {
                     if (contains(Array.from(item.classList), 'completed')) {
                         item.classList.add('hidden');
                     } else {
@@ -30,14 +31,15 @@ define(function () {
             break;
 
             // Show only completed tasks
-            case 'completed':
-            Array.from(document.querySelectorAll('.todo-list li')).forEach(function(item) {
-                if (contains(Array.from(item.classList), 'completed')) {
-                    item.classList.remove('hidden');
-                } else {
-                    item.classList.add('hidden');
-                }
-            });
+            case '#/completed':
+                // Show tasks with 'completed' class, hide others
+                Array.from(__e('.todo-list li')).forEach(function(item) {
+                    if (contains(Array.from(item.classList), 'completed')) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
             break;
         }
     }

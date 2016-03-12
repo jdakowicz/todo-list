@@ -1,9 +1,7 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
-    // concat = require('gulp-concat'),
     notify = require('gulp-notify'),
     connect = require('gulp-connect'),
-    spritesmith = require('gulp.spritesmith'),
     autoprefixer = require('gulp-autoprefixer');
 
 // Compile scss files into css file
@@ -23,19 +21,8 @@ gulp.task('autoprefixer', function () {
         .pipe(gulp.dest('css/'));
 });
 
-// Generates sprite file from .png files
-gulp.task('sprites', function () {
-    return gulp.src('img/sprites/*.png')
-        .pipe(spritesmith({
-            imgName: 'img/sprite.png',
-            cssName: 'sass/sprite.scss'
-        }))
-        .pipe(gulp.dest('.'))
-        .pipe(notify({ message: 'Creating Sprites Finished!'}));
-});
-
 // Task for Html reload
-gulp.task('html', function () {
+gulp.task('reload', function () {
     gulp.src('*.html')
         .pipe(connect.reload());
 });
@@ -52,8 +39,8 @@ gulp.task('connect', function () {
 // Task for watching for changes
 gulp.task('watch', function () {
     gulp.watch('sass/*.scss', ['styles']);
-    gulp.watch('*.html', ['html']);
-    gulp.watch('js/*.js', ['html']);
+    gulp.watch('*.html', ['reload']);
+    gulp.watch('js/*.js', ['reload']);
 });
 
 // Default Task after gulp starts

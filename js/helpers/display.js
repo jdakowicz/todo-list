@@ -1,9 +1,4 @@
 define(function () {
-    // helper function to check is item has specific class
-    function contains (obj, target) {
-        return obj.indexOf(target) >= 0;
-    }
-
     // function to swap views depends on selected filter
     function show (selectedFilter) {
         var allTasks = getArray(__e('.todo-list li'));
@@ -23,7 +18,7 @@ define(function () {
         case '#/active':
             // Hide tasks with 'completed' class, show all others
             allTasks.forEach(function (item) {
-                if (contains(getArray(item.classList), 'completed')) {
+                if (item.classList.contains('completed')) {
                     item.classList.add('hidden');
                 } else {
                     item.classList.remove('hidden');
@@ -35,7 +30,7 @@ define(function () {
         case '#/completed':
             // Show tasks with 'completed' class, hide others
             allTasks.forEach(function (item) {
-                if (contains(getArray(item.classList), 'completed')) {
+                if (item.classList.contains('completed')) {
                     item.classList.remove('hidden');
                 } else {
                     item.classList.add('hidden');

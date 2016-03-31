@@ -59,7 +59,7 @@ define(['./counter', './template', './storage'], function (counter, template, st
         // Focus the input
         editItem.focus();
         // Save on /enter
-        element.querySelector('.edit').addEventListener('keypress', function (e) {
+        editItem.addEventListener('keypress', function (e) {
             if (e.keyCode === 13) {
                 editContent(item, element, e);
             }

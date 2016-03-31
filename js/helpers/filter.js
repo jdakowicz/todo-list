@@ -48,7 +48,7 @@ define(['./display', './tasks'], function (display, tasks) {
     // Add filters all/active/completed functionality
     function addFilters () {
         // Create array from object to add all items handler
-        Array.from(filtersButtons).forEach(function (item) {
+        getArray(filtersButtons).forEach(function (item) {
             addHandler(item, item.getAttribute('href'));
         });
     }
@@ -63,7 +63,7 @@ define(['./display', './tasks'], function (display, tasks) {
             Because
             > We start with i = 0
             > We remove one item on our way
-            > Item with [i + 1] indexOf becames [i] and we miss it
+            > Item with [i + 1] indexOf becomes [i] and we miss it
             */
             for (i = temp.length - 1; i >= 0; i--) {
                 // Get item with [i] index

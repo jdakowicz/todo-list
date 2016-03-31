@@ -9,7 +9,7 @@ define(function () {
         }
         parent.appendChild(newElement);
     }
-    return function createTemplate (text) {
+    function createTemplate (text) {
         var tempElement,
             tempElementInner;
         // Create new list item with temporary class
@@ -33,8 +33,11 @@ define(function () {
         // Create Label
         createElement(tempElementInner, 'label');
         // Set text of label
-        tempElementInner.querySelector('label').innerHTML = text;
+        tempElementInner.querySelector('label').innerText = text;
         // Create button
         createElement(tempElementInner, 'button', 'destroy');
+    }
+    return {
+        create: createTemplate
     };
 });

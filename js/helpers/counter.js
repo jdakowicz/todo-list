@@ -1,18 +1,21 @@
 define(function () {
-    return function () {
-        var tasksList = document.querySelector('.todo-count'),
-            allItems = document.querySelectorAll('.todo-list > li').length,
-            done = document.querySelectorAll('.todo-list > li.completed').length,
-            result = allItems - done;
-        if (result === 1) {
-            if (tasksList.innerHTML.indexOf('items') > -1) {
-                tasksList.innerHTML = tasksList.innerHTML.replace('items', 'item');
+    function update () {
+        var counter = document.querySelector('.todo-count'),
+            activeItems = document.querySelectorAll('.todo-list > li:not(.completed)').length;
+
+        if (activeItems === 1) {
+            if (counter.innerHTML.indexOf('items') > -1) {
+                counter.innerHTML = counter.innerHTML.replace('items', 'item');
             }
         } else {
-            if (tasksList.innerHTML.indexOf('items') === -1) {
-                tasksList.innerHTML = tasksList.innerHTML.replace('item', 'items');
+            if (counter.innerHTML.indexOf('items') === -1) {
+                counter.innerHTML = counter.innerHTML.replace('item', 'items');
             }
         }
-        tasksList.querySelector('strong').innerText = result;
+        counter.querySelector('strong').innerText = activeItems;
+    }
+
+    return {
+        update: update
     };
 });
